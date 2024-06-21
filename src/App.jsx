@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Footer from "./JsvHospital/JsvFooter/Footer";
 import Appointment from "./JsvHospital/JsvHeader/JsvAppointment/Appointment";
 import JsvHeader from "./JsvHospital/JsvHeader/JsvHeader";
@@ -9,6 +9,12 @@ import BookAppointment from "./JsvHospital/JsvHeader/JsvDoctors/BookAppointment"
 import ContactUs from "./JsvHospital/JsvHeader/JsvContact/ContactUs";
 import DoctorsPage from "./JsvHospital/JsvHeader/JsvDoctors/JsvDoctor/DoctorsPage";
 import { useState } from "react";
+import Cookies from "js-cookie";
+
+const ProtectedRoute = ({ children }) => {
+  const session = Cookies.get("session");
+  return session ? children : <Navigate to="/login" />;
+};
 
 function App() {
   const [isLogged, setLogged] = useState(false);
@@ -27,7 +33,11 @@ function App() {
           <Route path="/contact" element={<ContactUs />} />
           <Route
             path="/doctor/:id/home"
-            element={<DoctorsPage setLogged={setLogged} />}
+            element={
+              <ProtectedRoute>
+                <DoctorsPage setLogged={setLogged} />
+              </ProtectedRoute>
+            }
           />
         </Routes>
         <Footer />

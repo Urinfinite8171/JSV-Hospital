@@ -3,15 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { doctorsList } from "../../JsvServices/JsvDoctors";
 
 function Doctors() {
-  const doctorsNames = [
-    { idNumber: 11001, name: "Vidhya Devi", disignation: "Opthamologist" },
-    { idNumber: 11002, name: "Vani Sri", disignation: "Cardiologist" },
-    { idNumber: 11003, name: "URI", disignation: "Dermatologist" },
-    { idNumber: 11004, name: "Vidhya Devi", disignation: "Opthamologist" },
-    { idNumber: 11005, name: "Vani Sri", disignation: "Cardiologist" },
-    { idNumber: 11006, name: "URI", disignation: "Dermatologist" },
-  ];
-
   const [dList, setList] = useState([]);
 
   const navigate = useNavigate();

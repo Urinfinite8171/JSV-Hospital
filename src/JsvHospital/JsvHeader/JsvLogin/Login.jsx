@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCredentials } from "../../JsvServices/JsvDoctors";
+import Cookies from "js-cookie";
 
 const Login = ({ setLogged }) => {
   const [id, setDoctorId] = useState("");
@@ -15,7 +15,6 @@ const Login = ({ setLogged }) => {
       getCredentials(id)
         .then((res) => {
           setCredentials(res.data);
-          console.log(res.data);
         })
         .catch((error) => console.log(error));
     }
@@ -34,6 +33,7 @@ const Login = ({ setLogged }) => {
     if (validateCredentials(id, password, credentials)) {
       console.log("Logging in as Doctor with ID:", id);
       setLogged(true);
+      setCookieWithMinutes("session", id, 30); // Set cookie for 30 minutes
       navigate(`/doctor/${id}/home`);
     } else {
       // Show toaster for failed login attempt
@@ -48,6 +48,11 @@ const Login = ({ setLogged }) => {
   const handleLoginAsPatient = (e) => {
     e.preventDefault();
     console.log("Logging in as Patient");
+  };
+
+  const setCookieWithMinutes = (key, value, minutes) => {
+    const expiresInDays = minutes / 1440; // 1440 minutes in a day
+    Cookies.set(key, value, { expires: expiresInDays });
   };
 
   return (
